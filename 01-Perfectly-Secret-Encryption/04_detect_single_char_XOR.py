@@ -1,25 +1,30 @@
 # https://cryptopals.com/sets/1/challenges/4
 
 def best_plaintext(ciphertext):
-    dict = {}
+    # Create a dictionary to store potential plaintexts
+    plaintexts = {}
 
-    # Brute force: for all ascii characters, XOR with ciphertext
-    for i in range(256):
+    # Brute force: XOR each ascii character with the ciphertext
+    for i in range(126):
         key = chr(i)
         try:
-            decoded_msg = bytes.fromhex(ciphertext).decode() # What if we cannot decode?
+            # Decode the ciphertext using the key
+            decoded_msg = bytes.fromhex(ciphertext).decode()
         except:
+            # If decoding fails, assume invalid ciphertext and continue
             continue
-        dec = [chr(i ^ ord(c)) for c in decoded_msg]  # XOR the the key with each byte char in the ciphertext
-        dict[key] = dec
+        # XOR the key with each byte character in the decoded message
+        dec = [chr(i ^ ord(c)) for c in decoded_msg]
+        # Store the potential plaintext in the dictionary
+        plaintexts[key] = dec
 
-    # Find the plaintext with the highest score.
-    # Method: If c in "etaoin shrdlu", then score += 1. (Most used characters in English language)
+    # Find the plaintext with the highest score
+    # +1 for each character in "etaoin shrdlu"
     max_score = 0
     max_key = chr(0)
     max_plaintext = []
 
-    for key, plaintext in dict.items():
+    for key, plaintext in plaintexts.items():
         score = 0
         for c in plaintext:
             if c in "etaoin shrdlu":
@@ -31,13 +36,19 @@ def best_plaintext(ciphertext):
 
     return max_score, max_key, ''.join(max_plaintext)
 
+
 if __name__ == '__main__':
+    # Create a dictionary to store ciphertexts and their potential plaintexts
     candidates = {}
+    # Read in ciphertexts from a file
     for line in open('data/04_data.txt', 'r').readlines():
+        # Strip any trailing whitespace and store the ciphertext and its potential plaintext in the dictionary
         candidates[line.strip()] = best_plaintext(line.strip())
 
-    # Sort by score
+    # Sort the candidates by score in descending order
     sorted_candidates = sorted(candidates.items(), key=lambda x: x[1][0], reverse=True)
-    print("Top 5 candidates:")
-    for i in range(5):
-        print("score=", sorted_candidates[i][1][0], "key=", sorted_candidates[i][1][1], "plaintext=", sorted_candidates[i][1][2])
+    print("Top 3 candidates:")
+    # Print the top 3 candidates with their scores, keys, and plaintexts
+    for i in range(3):
+        print("score=", sorted_candidates[i][1][0], "key=", sorted_candidates[i][1][1], "plaintext=",
+              sorted_candidates[i][1][2])
