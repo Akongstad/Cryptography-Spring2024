@@ -4,10 +4,10 @@ if __name__ == '__main__':
     dict = {}
 
     # Brute force: for all ascii characters, XOR with ciphertext
-    for i in range(256):
+    for i in range(126):
         key = chr(i)
         decoded_msg = bytes.fromhex(enc_hex).decode()
-        dec = [chr(i ^ ord(c)) for c in decoded_msg]  # XOR the the key with each byte char in the ciphertext
+        dec = [chr(i ^ ord(c)) for c in decoded_msg]  # XOR the key with each byte char in the ciphertext
         dict[key] = dec
 
     # Find the plaintext with the highest score.
