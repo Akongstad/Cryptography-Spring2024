@@ -1,8 +1,6 @@
 # https://cryptopals.com/sets/1/challenges/6
 import base64
 
-import numpy as np
-
 
 def distance(s1, s2):
     """Hammer distance between s1 and s2"""
@@ -86,14 +84,13 @@ if __name__ == '__main__':
     blocks_T = [b"" for _ in range(KEYSIZE)]
     for block in blocks:
         for i in range(KEYSIZE):
-            if i < len(block): # Last block will be smaller
-                blocks_T[i] += bytes([block[i]]) # append the i-th byte of the block to the i-th block
+            if i < len(block):  # Last block will be smaller
+                blocks_T[i] += bytes([block[i]])  # append the i-th byte of the block to the i-th block
     assert blocks != blocks_T
     # Assert shape
     assert len(blocks) == len(blocks_T[0])
     assert len(blocks_T) == KEYSIZE
     assert len(blocks[0]) == len(blocks_T)
-
 
     # solve each block as if it was single-byte XOR
     # The key that produces the best histogram is the repeating-key XOR key
