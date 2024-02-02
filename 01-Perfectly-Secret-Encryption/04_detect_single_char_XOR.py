@@ -8,14 +8,12 @@ def best_plaintext(ciphertext):
     for i in range(126):
         key = chr(i)
         try:
-            # Decode the ciphertext using the key
             decoded_msg = bytes.fromhex(ciphertext).decode()
         except:
             # If decoding fails, assume invalid ciphertext and continue
             continue
         # XOR the key with each byte character in the decoded message
         dec = [chr(i ^ ord(c)) for c in decoded_msg]
-        # Store the potential plaintext in the dictionary
         plaintexts[key] = dec
 
     # Find the plaintext with the highest score
@@ -38,9 +36,8 @@ def best_plaintext(ciphertext):
 
 
 if __name__ == '__main__':
-    # Create a dictionary to store ciphertexts and their potential plaintexts
     candidates = {}
-    # Read in ciphertexts from a file
+    # Read in ciphertexts from file
     for line in open('data/04_data.txt', 'r').readlines():
         # Strip any trailing whitespace and store the ciphertext and its potential plaintext in the dictionary
         candidates[line.strip()] = best_plaintext(line.strip())
@@ -48,7 +45,6 @@ if __name__ == '__main__':
     # Sort the candidates by score in descending order
     sorted_candidates = sorted(candidates.items(), key=lambda x: x[1][0], reverse=True)
     print("Top 3 candidates:")
-    # Print the top 3 candidates with their scores, keys, and plaintexts
     for i in range(3):
         print("score=", sorted_candidates[i][1][0], "key=", sorted_candidates[i][1][1], "plaintext=",
               sorted_candidates[i][1][2])
