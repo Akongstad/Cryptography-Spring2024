@@ -89,6 +89,11 @@ if __name__ == '__main__':
             if i < len(block): # Last block will be smaller
                 blocks_T[i] += bytes([block[i]]) # append the i-th byte of the block to the i-th block
     assert blocks != blocks_T
+    # Assert shape
+    assert len(blocks) == len(blocks_T[0])
+    assert len(blocks_T) == KEYSIZE
+    assert len(blocks[0]) == len(blocks_T)
+
 
     # solve each block as if it was single-byte XOR
     # The key that produces the best histogram is the repeating-key XOR key
