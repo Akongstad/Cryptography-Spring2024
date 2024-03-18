@@ -9,7 +9,6 @@ if __name__ == '__main__':
     def func2(n):
         return 1 / (n ** 6)
 
-
     n = np.linspace(1, 10)
 
     plt.plot(n, func1(n), label='(2**-n)*(2**-n)**-1')

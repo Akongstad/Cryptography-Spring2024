@@ -1,5 +1,5 @@
 # https://cryptopals.com/sets/1/challenges/5
-
+import numpy as np
 plaintext = "Burning 'em, if you ain't quick and nimble\nI go crazy when I hear a cymbal"
 key = "ICE"
 
